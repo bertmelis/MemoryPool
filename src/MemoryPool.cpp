@@ -43,11 +43,13 @@ void* Variable::malloc(size_t size) {
   const std::lock_guard<std::mutex> lockGuard(_mutex);
   if (size == 0) return nullptr;
 
+  size = (size / sizeof(BlockHeader) + (size % sizeof(BlockHeader) != 0)) + 1;  // count by BlockHeader size, add 1 for header
+
   #ifdef MEMPOL_DEBUG
-  std::cout << "malloc " << size << " - ";
+  std::cout << "malloc (raw) " << size << std::endl
+  std::cout << "malloc (adj) " << size << " - ";
   #endif
 
-  size = (size / sizeof(BlockHeader) + (size % sizeof(BlockHeader) != 0)) + 1;  // count by BlockHeader size, add 1 for header
   BlockHeader* currentBlock = _head;
   BlockHeader* previousBlock = nullptr;
   void* retVal = nullptr;
