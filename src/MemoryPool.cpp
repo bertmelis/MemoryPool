@@ -46,7 +46,7 @@ void* Variable::malloc(size_t size) {
   size = (size / sizeof(BlockHeader) + (size % sizeof(BlockHeader) != 0)) + 1;  // count by BlockHeader size, add 1 for header
 
   #ifdef MEMPOL_DEBUG
-  std::cout << "malloc (raw) " << size << std::endl
+  std::cout << "malloc (raw) " << size << std::endl;
   std::cout << "malloc (adj) " << size << " - ";
   #endif
 
