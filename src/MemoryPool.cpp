@@ -43,11 +43,13 @@ void* Variable::malloc(size_t size) {
   const std::lock_guard<std::mutex> lockGuard(_mutex);
   if (size == 0) return nullptr;
 
+  size = (size / sizeof(BlockHeader) + (size % sizeof(BlockHeader) != 0)) + 1;  // count by BlockHeader size, add 1 for header
+
   #ifdef MEMPOL_DEBUG
-  std::cout << "malloc " << size << " - ";
+  std::cout << "malloc (raw) " << size << std::endl;
+  std::cout << "malloc (adj) " << size << " - ";
   #endif
 
-  size = (size / sizeof(BlockHeader) + (size % sizeof(BlockHeader) != 0)) + 1;  // count by BlockHeader size, add 1 for header
   BlockHeader* currentBlock = _head;
   BlockHeader* previousBlock = nullptr;
   void* retVal = nullptr;
@@ -174,6 +176,8 @@ size_t Variable::maxBlockSize() {
 void Variable::print() {
   std::cout << "+--------------------" << std::endl;
   std::cout << "|start:" << static_cast<void*>(_buffer) << std::endl;
+  std::cout << "|size:" << _bufferSize << std::endl;
+  std::cout << "|headersize:" << sizeof(BlockHeader) << std::endl;
   std::cout << "|head: " << static_cast<void*>(_head) << std::endl;
   BlockHeader* nextFreeBlock = _head;
   BlockHeader* currentBlock = reinterpret_cast<BlockHeader*>(_buffer);
