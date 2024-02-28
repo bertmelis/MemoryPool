@@ -8,7 +8,7 @@ the LICENSE file.
 
 #include <unity.h>
 
-#include <MemPool.h>
+#include <MemoryPool.h>
 
 void setUp() {}
 void tearDown() {}
