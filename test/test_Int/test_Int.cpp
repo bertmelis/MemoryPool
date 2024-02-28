@@ -63,7 +63,7 @@ void mallocMultiFull() {
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int2 = reinterpret_cast<int*>(pool.malloc(8 * blocksize));
   pool.print();
-  int* int3 = reinterpret_cast<int*>(pool.malloc(8 * blocksize));
+  int* int3 = reinterpret_cast<int*>(pool.malloc(8 * blocksize + 1));
   int* int4 = reinterpret_cast<int*>(pool.malloc(blocksize));
 
   pool.print();
