@@ -24,7 +24,8 @@ constexpr const size_t blockHeadersize = sizeof(void*) + sizeof(size_t);
 void emptyPool() {
   const size_t nrBlocks = 3;
   const size_t blocksize = sizeof(MemTestStruct);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
+
   size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
   TEST_ASSERT_EQUAL_UINT(nrBlocks * (adjustedBlocksize + blockHeadersize) - blockHeadersize, pool.freeMemory());
   TEST_ASSERT_EQUAL_UINT(nrBlocks * (adjustedBlocksize + blockHeadersize) - blockHeadersize, pool.maxBlockSize());
@@ -33,7 +34,8 @@ void emptyPool() {
 void mallocFull() {
   const size_t nrBlocks = 3;
   const size_t blocksize = sizeof(MemTestStruct);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
+
   MemTestStruct* var1 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
   MemTestStruct* var2 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
   MemTestStruct* var3 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
@@ -56,7 +58,8 @@ void mallocFull() {
 void mallocMultiFull() {
   const size_t nrBlocks = 4;
   const size_t blocksize = sizeof(MemTestStruct);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
+
   MemTestStruct* var1 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
   MemTestStruct* var2 = reinterpret_cast<MemTestStruct*>(pool.malloc(2 * blocksize));
   MemTestStruct* var3 = reinterpret_cast<MemTestStruct*>(pool.malloc(2 * blocksize));
@@ -83,7 +86,7 @@ void freeAppend() {
   const size_t nrBlocks = 5;
   const size_t blocksize = sizeof(MemTestStruct);
   size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
 
   MemTestStruct* var1 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
   MemTestStruct* var2 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
@@ -106,7 +109,7 @@ void freePrepend() {
   const size_t nrBlocks = 5;
   const size_t blocksize = sizeof(MemTestStruct);
   size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
 
   MemTestStruct* var1 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
   MemTestStruct* var2 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
@@ -127,7 +130,7 @@ void freeEmpty() {
   const size_t nrBlocks = 5;
   const size_t blocksize = sizeof(MemTestStruct);
   size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
 
   MemTestStruct* var1 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));
   MemTestStruct* var2 = reinterpret_cast<MemTestStruct*>(pool.malloc(blocksize));

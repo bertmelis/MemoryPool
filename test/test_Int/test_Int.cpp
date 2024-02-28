@@ -18,7 +18,8 @@ constexpr const size_t blockHeadersize = sizeof(void*) + sizeof(size_t);
 void emptyPool() {
   const size_t nrBlocks = 3;
   const size_t blocksize = sizeof(int);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
+
   size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
 
   pool.print();
@@ -30,7 +31,8 @@ void emptyPool() {
 void mallocFull() {
   const size_t nrBlocks = 3;
   const size_t blocksize = sizeof(int);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
+
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int2 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int3 = reinterpret_cast<int*>(pool.malloc(blocksize));
@@ -59,7 +61,8 @@ void mallocMultiFull() {
 
   const size_t nrBlocks = 4;
   const size_t blocksize = sizeof(int);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
+
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int2 = reinterpret_cast<int*>(pool.malloc(8 * blocksize));
   int* int3 = reinterpret_cast<int*>(pool.malloc(8 * blocksize + 1));
@@ -86,7 +89,7 @@ void freeAppend() {
   const size_t nrBlocks = 5;
   const size_t blocksize = sizeof(int);
   size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
 
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int2 = reinterpret_cast<int*>(pool.malloc(blocksize));
@@ -114,7 +117,7 @@ void freePrepend() {
   const size_t nrBlocks = 5;
   const size_t blocksize = sizeof(int);
   size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
 
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int2 = reinterpret_cast<int*>(pool.malloc(blocksize));
@@ -140,7 +143,7 @@ void freeEmpty() {
   const size_t nrBlocks = 5;
   const size_t blocksize = sizeof(int);
   size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
-  MemoryPool::Variable pool(nrBlocks, blocksize);
+  MemoryPool::Variable<nrBlocks, blocksize> pool;
 
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int2 = reinterpret_cast<int*>(pool.malloc(blocksize));
