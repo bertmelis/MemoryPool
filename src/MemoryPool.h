@@ -23,7 +23,7 @@ template <std::size_t nrBlocks, std::size_t blocksize>
 class Variable {
  public:
   Variable()
-    : _buffer(nullptr)
+    : _buffer{0}
     , _head(nullptr)
     #ifdef MEMPOL_DEBUG
     , _bufferSize(0)
