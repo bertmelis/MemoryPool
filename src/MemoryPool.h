@@ -8,7 +8,6 @@ the LICENSE file.
 
 #pragma once
 
-#include <stdlib.h>  // malloc, free
 #include <cstddef>  // std::size_t
 #include <cassert>  // assert
 #include <mutex>  // NOLINT [build/c++11] std::mutex, std::lock_guard
