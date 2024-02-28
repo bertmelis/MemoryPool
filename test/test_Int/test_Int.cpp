@@ -62,7 +62,6 @@ void mallocMultiFull() {
   MemoryPool::Variable pool(nrBlocks, blocksize);
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int2 = reinterpret_cast<int*>(pool.malloc(8 * blocksize));
-  pool.print();
   int* int3 = reinterpret_cast<int*>(pool.malloc(8 * blocksize + 1));
   int* int4 = reinterpret_cast<int*>(pool.malloc(blocksize));
 
@@ -75,10 +74,10 @@ void mallocMultiFull() {
 
   *int1 = 1;
   *int2 = 2;
-  *int3 = 3;
+  *int4 = 4;
   TEST_ASSERT_EQUAL_INT(1, *int1);
   TEST_ASSERT_EQUAL_INT(2, *int2);
-  TEST_ASSERT_EQUAL_INT(3, *int3);
+  TEST_ASSERT_EQUAL_INT(4, *int4);
   TEST_ASSERT_EQUAL_UINT(0, pool.freeMemory());
   TEST_ASSERT_EQUAL_UINT(0, pool.maxBlockSize());
 }
