@@ -61,8 +61,9 @@ void mallocMultiFull() {
   const size_t blocksize = sizeof(int);
   MemoryPool::Variable pool(nrBlocks, blocksize);
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
-  int* int2 = reinterpret_cast<int*>(pool.malloc(8 * blocksize));
-  int* int3 = reinterpret_cast<int*>(pool.malloc(8 * blocksize));
+  int* int2 = reinterpret_cast<int*>(pool.malloc(2 * 8 * blocksize));
+  pool.print();
+  int* int3 = reinterpret_cast<int*>(pool.malloc(2 * 8 * blocksize));
   int* int4 = reinterpret_cast<int*>(pool.malloc(blocksize));
 
   pool.print();
