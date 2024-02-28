@@ -54,27 +54,29 @@ void mallocFull() {
 }
 
 void mallocMultiFull() {
+  // mind sizeof(int) != internal blocksize (int is smaller on amd64)
+
   const size_t nrBlocks = 4;
   const size_t blocksize = sizeof(int);
   MemoryPool::Variable pool(nrBlocks, blocksize);
   int* int1 = reinterpret_cast<int*>(pool.malloc(blocksize));
   int* int2 = reinterpret_cast<int*>(pool.malloc(2 * blocksize));
   int* int3 = reinterpret_cast<int*>(pool.malloc(2 * blocksize));
-  int* int4 = reinterpret_cast<int*>(pool.malloc(blocksize));
+  int* int4 = reinterpret_cast<int*>(pool.malloc(2 * blocksize));
 
   pool.print();
 
   TEST_ASSERT_NOT_NULL(int1);
   TEST_ASSERT_NOT_NULL(int2);
-  TEST_ASSERT_NULL(int3);
-  TEST_ASSERT_NOT_NULL(int4);
+  TEST_ASSERT_NOT_NULL(int3);
+  TEST_ASSERT_NULL(int4);
 
   *int1 = 1;
   *int2 = 2;
-  *int4 = 4;
+  *int3 = 3;
   TEST_ASSERT_EQUAL_INT(1, *int1);
   TEST_ASSERT_EQUAL_INT(2, *int2);
-  TEST_ASSERT_EQUAL_INT(4, *int4);
+  TEST_ASSERT_EQUAL_INT(3, *int3);
   TEST_ASSERT_EQUAL_UINT(0, pool.freeMemory());
   TEST_ASSERT_EQUAL_UINT(0, pool.maxBlockSize());
 }
