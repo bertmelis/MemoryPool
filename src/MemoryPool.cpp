@@ -176,6 +176,8 @@ size_t Variable::maxBlockSize() {
 void Variable::print() {
   std::cout << "+--------------------" << std::endl;
   std::cout << "|start:" << static_cast<void*>(_buffer) << std::endl;
+  std::cout << "|size:" << _bufferSize << std::endl;
+  std::cout << "|headersize:" << sizeof(BlockHeader) << std::endl;
   std::cout << "|head: " << static_cast<void*>(_head) << std::endl;
   BlockHeader* nextFreeBlock = _head;
   BlockHeader* currentBlock = reinterpret_cast<BlockHeader*>(_buffer);
