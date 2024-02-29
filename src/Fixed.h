@@ -86,7 +86,7 @@ class Fixed {
       } else {
         std::cout << "|   allocated" << std::endl;
       }
-    }    
+    }
     std::cout << "+--------------------" << std::endl;
   }
   #endif
@@ -94,6 +94,7 @@ class Fixed {
  private:
   unsigned char* _buffer[nrBlocks * std::max(sizeof(void*), blocksize)];
   unsigned char* _head;
+  std::mutex _mutex;
 };
 
 }  // end namespace MemoryPool
