@@ -36,7 +36,7 @@ class Fixed {
       currentIndex = nextIndex;
       nextIndex += adjustedBlocksize;
     }
-    b[currentIndex] = nullptr;
+    reinterpret_cast<unsigned char**>(b)[currentIndex] = nullptr;
   }
 
   // no copy nor move
