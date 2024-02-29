@@ -23,7 +23,7 @@ class Fixed {
  public:
   Fixed()
   : _buffer{0}
-  , _head(&_buffer) {
+  , _head(_buffer) {
     unsigned char* b = _buffer;
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::size_t i = blocksize - 1;
@@ -92,7 +92,7 @@ class Fixed {
   #endif
 
  private:
-  unsigned char* _buffer[nrBlocks * (sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize))];
+  unsigned char _buffer[nrBlocks * (sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize))];
   unsigned char* _head;
   std::mutex _mutex;
 };
