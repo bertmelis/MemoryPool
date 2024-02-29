@@ -24,12 +24,12 @@ class Fixed {
   Fixed()
   : _buffer{0}
   , _head(_buffer) {
-    unsigned char* b = _buffer;
+    unsigned char* b = _head;
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::size_t i = blocksize - 1;
     while (i) {
       std::cout << "preparing b: " << reinterpret_cast<void*>(b) << std::endl;
-      *reinterpret_cast<unsigned char**>(b) = b + adjustedBlocksize;
+      *reinterpret_cast<unsigned char**>(b) = reinterpret_cast<unsigned char*>(b + adjustedBlocksize);
       b += adjustedBlocksize;
       std::cout << "updated : " << reinterpret_cast<void*>(b) << std::endl;
       --i;
