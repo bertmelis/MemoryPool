@@ -69,7 +69,7 @@ class Fixed {
       i = reinterpret_cast<unsigned char**>(i)[0];
     }
     return retVal;
-  }
+  } while (i);
 
   #ifdef MEMPOL_DEBUG
   void print() {
