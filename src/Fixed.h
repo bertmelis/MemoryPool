@@ -64,12 +64,12 @@ class Fixed {
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     unsigned char* i = _head;
     std::size_t retVal = 0;
-    while (i) {
+    do {
       retVal += adjustedBlocksize;
       i = reinterpret_cast<unsigned char**>(i)[0];
-    }
+    } while (i);
     return retVal;
-  } while (i);
+  }
 
   #ifdef MEMPOL_DEBUG
   void print() {
