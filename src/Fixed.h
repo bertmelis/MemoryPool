@@ -65,7 +65,7 @@ class Fixed {
     std::size_t retVal = 0;
     while (i) {
       retVal += blocksize;
-      i = *reinterpret_cast<unsigned char**>(i);
+      i = reinterpret_cast<unsigned char**>(i)[0];
     }
     return retVal;
   }
@@ -90,6 +90,7 @@ class Fixed {
       } else {
         std::cout << "|   allocated" << std::endl;
       }
+      currentBlock += blocksize;
     }
     std::cout << "+--------------------" << std::endl;
   }
