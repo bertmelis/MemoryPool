@@ -61,10 +61,11 @@ class Fixed {
 
   std::size_t freeMemory() {
     const std::lock_guard<std::mutex> lockGuard(_mutex);
+    std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     unsigned char* i = _head;
     std::size_t retVal = 0;
     while (i) {
-      retVal += blocksize;
+      retVal += adjustedBlocksize;
       i = reinterpret_cast<unsigned char**>(i)[0];
     }
     return retVal;
@@ -72,11 +73,11 @@ class Fixed {
 
   #ifdef MEMPOL_DEBUG
   void print() {
-    std::size_t adjBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
+    std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::cout << "+--------------------" << std::endl;
     std::cout << "|start:" << reinterpret_cast<void*>(_buffer) << std::endl;
     std::cout << "|blocks:" << nrBlocks << std::endl;
-    std::cout << "|blocksize:" << adjBlocksize << std::endl;
+    std::cout << "|blocksize:" << adjustedBlocksize << std::endl;
     std::cout << "|head: " << reinterpret_cast<void*>(_head) << std::endl;
     unsigned char* currentBlock = _buffer;
 
@@ -88,7 +89,7 @@ class Fixed {
       } else {
         std::cout << "|   allocated" << std::endl;
       }
-      currentBlock += blocksize;
+      currentBlock += adjustedBlocksize;
     }
     std::cout << "+--------------------" << std::endl;
   }
