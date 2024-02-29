@@ -25,7 +25,7 @@ class Fixed {
   : _buffer{0}
   , _head(_buffer) {
     unsigned char* b = _buffer;
-    std::size_t adjustedBlocksize = std::max(sizeof(void*), blocksize);
+    std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::size_t i = blocksize - 1;
     while (i) {
       *b = b + adjustedBlocksize;
@@ -68,7 +68,7 @@ class Fixed {
 
   #ifdef MEMPOL_DEBUG
   void print() {
-    std::size_t adjBlocksize = std::max(sizeof(void*), blocksize);
+    std::size_t adjBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::cout << "+--------------------" << std::endl;
     std::cout << "|start:" << static_cast<void*>(_buffer) << std::endl;
     std::cout << "|blocks:" << nrBlocks << std::endl;
@@ -92,7 +92,7 @@ class Fixed {
   #endif
 
  private:
-  unsigned char* _buffer[nrBlocks * std::max(sizeof(void*), blocksize)];
+  unsigned char* _buffer[nrBlocks * (sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize))];
   unsigned char* _head;
   std::mutex _mutex;
 };

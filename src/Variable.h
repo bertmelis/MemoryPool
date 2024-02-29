@@ -170,7 +170,7 @@ class Variable {
     BlockHeader* currentBlock = reinterpret_cast<BlockHeader*>(_head);
 
     while (currentBlock) {
-      retVal = std::max(currentBlock->size - 1, retVal);
+      retVal = (currentBlock->size - 1 > retVal) ? currentBlock->size - 1 : retVal;
       currentBlock = currentBlock->next;
     }
 
