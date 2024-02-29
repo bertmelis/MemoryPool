@@ -18,7 +18,7 @@ void emptyPool() {
   const size_t blocksize = sizeof(int);
   MemoryPool::Fixed<nrBlocks, blocksize> pool;
 
-  size_t adjustedBlocksize = std::max(void*, blocksize);
+  size_t adjustedBlocksize = std::max(sizeof(void*), blocksize);
 
   pool.print();
 
