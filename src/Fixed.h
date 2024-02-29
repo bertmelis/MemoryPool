@@ -28,11 +28,11 @@ class Fixed {
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::size_t i = blocksize - 1;
     while (i) {
-      *b = b + adjustedBlocksize;
+      *reinterpret_cast<unsigned char**>(b) = b + adjustedBlocksize;
       b += adjustedBlocksize;
       --i;
     }
-    *b = nullptr;
+    *reinterpret_cast<unsigned char**>(b) = nullptr;
   }
 
   // no copy nor move
@@ -81,7 +81,7 @@ class Fixed {
       std::cout << "|" << i + 1 << ": " << static_cast<void*>(currentBlock) << std::endl;
       if (currentBlock == nextFreeBlock) {
         std::cout << "|   free" << std::endl;
-        nextFreeBlock = *currentBlock;
+        nextFreeBlock = *reinterpret_cast<unsigned char**>(currentBlock);
         std::cout << "|   next: " << static_cast<void*>(nextFreeBlock) << std::endl;
       } else {
         std::cout << "|   allocated" << std::endl;
