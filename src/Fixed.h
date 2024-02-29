@@ -61,7 +61,7 @@ class Fixed {
     std::size_t retVal = 0;
     while (i) {
       retVal += blocksize;
-      i = *i;
+      i = *reinterpret_cast<unsigned char**>(i);
     }
     return retVal;
   }
