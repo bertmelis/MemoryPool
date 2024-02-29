@@ -34,9 +34,9 @@ class Fixed {
       reinterpret_cast<unsigned char**>(b)[currentIndex] = &b[nextIndex];
       std::cout << "updated : " << reinterpret_cast<void*>(&b[nextIndex]) << std::endl;
       currentIndex = nextIndex;
-      nextIndex += adjBlocksize;
+      nextIndex += adjustedBlocksize;
     }
-    block[currentIndex] = nullptr;
+    b[currentIndex] = nullptr;
   }
 
   // no copy nor move
