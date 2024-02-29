@@ -29,7 +29,7 @@ class Fixed {
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::size_t currentIndex = 0;
     std::size_t nextIndex = currentIndex + adjustedBlocksize;
-    for (std::size_t i = 0; i < nrBlocks - 1; ++i) {
+    for (std::size_t i = 0; i < nrBlocks; ++i) {
       std::cout << "preparing b: " << reinterpret_cast<void*>(&b[currentIndex]) << std::endl;
       reinterpret_cast<unsigned char**>(b)[currentIndex] = &b[nextIndex];
       std::cout << "updated : " << reinterpret_cast<void*>(&b[nextIndex]) << std::endl;
@@ -78,21 +78,28 @@ class Fixed {
     std::cout << "|blocks:" << nrBlocks << std::endl;
     std::cout << "|blocksize:" << adjBlocksize << std::endl;
     std::cout << "|head: " << static_cast<void*>(_head) << std::endl;
-    unsigned char* nextFreeBlock = _head;
     unsigned char* currentBlock = _buffer;
 
     for (std::size_t i = 0; i < nrBlocks; ++i) {
       std::cout << "|" << i + 1 << ": " << static_cast<void*>(currentBlock) << std::endl;
-      if (currentBlock == nextFreeBlock) {
+      if (_isFree(currentBlock)) {
         std::cout << "|   free" << std::endl;
-        nextFreeBlock = *reinterpret_cast<unsigned char**>(currentBlock);
-        std::cout << "|   next: " << static_cast<void*>(nextFreeBlock) << std::endl;
+        std::cout << "|   next: " << static_cast<void*>(*currentBlock) << std::endl;
       } else {
         std::cout << "|   allocated" << std::endl;
       }
       currentBlock += blocksize;
     }
     std::cout << "+--------------------" << std::endl;
+  }
+
+  bool _isFree(unsigned char* ptr) {
+    unsigned char* b = _head;
+    while (b) {
+      if (b == ptr) return true;
+      b = *reinterpret_cast<unsigned char**>(b);
+    }
+    return false;
   }
   #endif
 
