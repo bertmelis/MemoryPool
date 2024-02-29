@@ -74,17 +74,17 @@ class Fixed {
   void print() {
     std::size_t adjBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::cout << "+--------------------" << std::endl;
-    std::cout << "|start:" << static_cast<void*>(_buffer) << std::endl;
+    std::cout << "|start:" << _buffer << std::endl;
     std::cout << "|blocks:" << nrBlocks << std::endl;
     std::cout << "|blocksize:" << adjBlocksize << std::endl;
-    std::cout << "|head: " << static_cast<void*>(_head) << std::endl;
+    std::cout << "|head: " << _head << std::endl;
     unsigned char* currentBlock = _buffer;
 
     for (std::size_t i = 0; i < nrBlocks; ++i) {
-      std::cout << "|" << i + 1 << ": " << static_cast<void*>(currentBlock) << std::endl;
+      std::cout << "|" << i + 1 << ": " << currentBlock << std::endl;
       if (_isFree(currentBlock)) {
         std::cout << "|   free" << std::endl;
-        std::cout << "|   next: " << static_cast<void*>(*currentBlock) << std::endl;
+        std::cout << "|   next: " << *reinterpret_cast<unsigned char**>(currentBlock) << std::endl;
       } else {
         std::cout << "|   allocated" << std::endl;
       }
