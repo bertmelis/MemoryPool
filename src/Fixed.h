@@ -25,16 +25,18 @@ class Fixed {
   : _buffer{0}
   , _head(_buffer) {
     unsigned char* b = _head;
+    std::cout << "head: " << reinterpret_cast<void*>(_head);
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
-    std::size_t i = blocksize - 1;
-    while (i) {
-      std::cout << "preparing b: " << reinterpret_cast<void*>(b) << std::endl;
-      *reinterpret_cast<unsigned char**>(b) = reinterpret_cast<unsigned char*>(b + adjustedBlocksize);
-      b += adjustedBlocksize;
-      std::cout << "updated : " << reinterpret_cast<void*>(b) << std::endl;
-      --i;
+    std::size_t currentIndex = 0;
+    std::size_t nextIndex = currentIndex + adjustedBlocksize;
+    for (std::size_t i = 0; i < nrBlocks - 1; ++i) {
+      std::cout << "preparing b: " << reinterpret_cast<void*>(&b[currentIndex]) << std::endl;
+      reinterpret_cast<unsigned char**>(b)[currentIndex] = &b[nextIndex];
+      std::cout << "updated : " << reinterpret_cast<void*>(&b[nextIndex]) << std::endl;
+      currentIndex = nextIndex;
+      nextIndex += adjBlocksize;
     }
-    *reinterpret_cast<unsigned char**>(b) = nullptr;
+    block[currentIndex] = nullptr;
   }
 
   // no copy nor move
