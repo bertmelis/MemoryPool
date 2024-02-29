@@ -28,8 +28,10 @@ class Fixed {
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::size_t i = blocksize - 1;
     while (i) {
+      std::cout << "preparing b: " << reinterpret_cast<void*>(b) << std::endl;
       *reinterpret_cast<unsigned char**>(b) = b + adjustedBlocksize;
       b += adjustedBlocksize;
+      std::cout << "updated : " << reinterpret_cast<void*>(b) << std::endl;
       --i;
     }
     *reinterpret_cast<unsigned char**>(b) = nullptr;
