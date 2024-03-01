@@ -18,11 +18,9 @@ void emptyPool() {
   const size_t blocksize = sizeof(int);
   MemoryPool::Fixed<nrBlocks, blocksize> pool;
 
-  size_t adjustedBlocksize = std::max(sizeof(void*), blocksize);
-
   pool.print();
 
-  TEST_ASSERT_EQUAL_UINT(nrBlocks * adjustedBlocksize, pool.freeMemory());
+  TEST_ASSERT_EQUAL_UINT(nrBlocks * blocksize, pool.freeMemory());
 }
 
 void mallocFull() {
