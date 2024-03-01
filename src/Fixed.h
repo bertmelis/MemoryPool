@@ -65,10 +65,10 @@ class Fixed {
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     unsigned char* i = _head;
     std::size_t retVal = 0;
-    do {
+    while (i) {
       retVal += adjustedBlocksize;
       i = reinterpret_cast<unsigned char**>(i)[0];
-    } while (i);
+    }
     return retVal;
   }
 
@@ -101,6 +101,7 @@ class Fixed {
       if (b == ptr) return true;
       b = *reinterpret_cast<unsigned char**>(b);
     }
+    std::cout << reinterpret_cast<void*>(b) << " is allocated" << std::endl;
     return false;
   }
   #endif
