@@ -54,6 +54,6 @@ void mallocFull() {
 int main() {
   UNITY_BEGIN();
   RUN_TEST(emptyPool);
-  RUN_TEST(mallocFull)
+  RUN_TEST(mallocFull);
   return UNITY_END();
 }

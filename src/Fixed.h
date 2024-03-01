@@ -41,7 +41,7 @@ class Fixed {
     const std::lock_guard<std::mutex> lockGuard(_mutex);
     if (_head) {
       void* retVal = _head;
-      _head = *_head;
+      _head = *reinterpret_cast<unsigned char**>(_head);
       return retVal;
     }
     return nullptr;
