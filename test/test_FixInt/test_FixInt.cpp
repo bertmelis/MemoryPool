@@ -51,9 +51,63 @@ void mallocFull() {
   TEST_ASSERT_EQUAL_UINT(0, pool.freeMemory());
 }
 
+void freePartial() {
+  const size_t nrBlocks = 4;
+  const size_t blocksize = sizeof(int);
+  size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
+  MemoryPool::Fixed<nrBlocks, blocksize> pool;
+
+  int* int1 = reinterpret_cast<int*>(pool.malloc());
+  int* int2 = reinterpret_cast<int*>(pool.malloc());
+  int* int3 = reinterpret_cast<int*>(pool.malloc());
+  int* int4 = reinterpret_cast<int*>(pool.malloc());
+  int* int5 = reinterpret_cast<int*>(pool.malloc());
+  pool.print();
+
+  (void) int1;
+  pool.free(int2);
+  pool.print();
+  TEST_ASSERT_EQUAL_UINT(1 * adjustedBlocksize, pool.freeMemory());
+  pool.free(int4);
+  pool.print();
+  TEST_ASSERT_EQUAL_UINT(2 * adjustedBlocksize, pool.freeMemory());
+  int* int5 = reinterpret_cast<int*>(pool.malloc(blocksize));
+  TEST_ASSERT_NOT_NULL(int5);
+  pool.print();
+  (void) int5;
+
+  TEST_ASSERT_EQUAL_UINT(1 * adjustedBlocksize, pool.freeMemory());
+}
+
+void freeEmpty() {
+  const size_t nrBlocks = 4;
+  const size_t blocksize = sizeof(int);
+  size_t adjustedBlocksize = std::max(blocksize, blockHeadersize);
+  MemoryPool::Fixed<nrBlocks, blocksize> pool;
+
+  int* int1 = reinterpret_cast<int*>(pool.malloc());
+  int* int2 = reinterpret_cast<int*>(pool.malloc());
+  int* int3 = reinterpret_cast<int*>(pool.malloc());
+  int* int4 = reinterpret_cast<int*>(pool.malloc());
+
+  pool.print();
+  pool.free(int1);
+  pool.print();
+  pool.free(int2);
+  pool.print();
+  pool.free(int3);
+  pool.print();
+  pool.free(int4);
+  pool.print();
+
+  TEST_ASSERT_EQUAL_UINT(nrBlocks * adjustedBlocksize, pool.freeMemory());
+}
+
 int main() {
   UNITY_BEGIN();
   RUN_TEST(emptyPool);
   RUN_TEST(mallocFull);
+  RUN_TEST(freePartial);
+  RUN_TEST(freeEmpty);
   return UNITY_END();
 }

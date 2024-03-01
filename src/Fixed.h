@@ -94,7 +94,6 @@ class Fixed {
       if (b == ptr) return true;
       b = *reinterpret_cast<unsigned char**>(b);
     }
-    std::cout << reinterpret_cast<void*>(b) << " is allocated" << std::endl;
     return false;
   }
   #endif
