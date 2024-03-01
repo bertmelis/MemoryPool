@@ -84,12 +84,8 @@ class Fixed {
 
     for (std::size_t i = 0; i < nrBlocks; ++i) {
       std::cout << "|" << i + 1 << ": " << reinterpret_cast<void*>(currentBlock) << std::endl;
-      if (_isFree(currentBlock)) {
-        std::cout << "|   free" << std::endl;
-        std::cout << "|   next: " << reinterpret_cast<void*>(*reinterpret_cast<unsigned char**>(currentBlock)) << std::endl;
-      } else {
-        std::cout << "|   allocated" << std::endl;
-      }
+      std::cout << "|   free" << std::endl;
+      std::cout << "|   next: " << reinterpret_cast<void*>(*reinterpret_cast<unsigned char**>(currentBlock)) << std::endl;
       currentBlock += adjustedBlocksize;
     }
     std::cout << "+--------------------" << std::endl;
