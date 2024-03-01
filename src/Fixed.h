@@ -55,11 +55,10 @@ class Fixed {
 
   std::size_t freeMemory() {
     const std::lock_guard<std::mutex> lockGuard(_mutex);
-    std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     unsigned char* i = _head;
     std::size_t retVal = 0;
     while (i) {
-      retVal += adjustedBlocksize;
+      retVal += blocksize;
       i = reinterpret_cast<unsigned char**>(i)[0];
     }
     return retVal;
