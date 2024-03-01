@@ -25,14 +25,11 @@ class Fixed {
   : _buffer{0}
   , _head(_buffer) {
     unsigned char* b = _head;
-    std::cout << "head: " << reinterpret_cast<void*>(_head) << std::endl;
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     for (std::size_t i = 0; i < nrBlocks - 1; ++i) {
       *reinterpret_cast<unsigned char**>(b) = b + adjustedBlocksize;
-      std::cout << "set " << reinterpret_cast<void*>(b) << " to " << reinterpret_cast<void*>(b + adjustedBlocksize) << std::endl;
       b += adjustedBlocksize;
     }
-    std::cout << "set " << reinterpret_cast<void*>(b) << " to 0" << std::endl;
     *reinterpret_cast<unsigned char**>(b) = nullptr;
   }
 
@@ -80,7 +77,12 @@ class Fixed {
 
     for (std::size_t i = 0; i < nrBlocks; ++i) {
       std::cout << "|" << i + 1 << ": " << reinterpret_cast<void*>(currentBlock) << std::endl;
-      std::cout << "|   next: " << reinterpret_cast<void*>(*reinterpret_cast<unsigned char**>(currentBlock)) << std::endl;
+      if (_isFree(currentBlock)) {
+        std::cout << "|   free" << std::endl;
+        std::cout << "|   next: " << reinterpret_cast<void*>(*reinterpret_cast<unsigned char**>(currentBlock)) << std::endl;
+      } else {
+        std::cout << "|   allocated" << std::endl;
+      }
       currentBlock += adjustedBlocksize;
     }
     std::cout << "+--------------------" << std::endl;
