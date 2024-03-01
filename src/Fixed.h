@@ -48,9 +48,10 @@ class Fixed {
   }
 
   void free(void* ptr) {
+    if (!ptr) return;
     const std::lock_guard<std::mutex> lockGuard(_mutex);
-    *ptr = _head;
-    _head = ptr;
+    *reinterpret_cast<unsigned char**>(ptr) = _head;
+    _head = reinterpret_cast<unsigned char*>(ptr);
   }
 
   std::size_t freeMemory() {

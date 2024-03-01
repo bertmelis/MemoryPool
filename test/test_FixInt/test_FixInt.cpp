@@ -64,6 +64,7 @@ void freePartial() {
   pool.print();
 
   (void) int1;
+  (void) int3;
   pool.free(int2);
   pool.print();
   TEST_ASSERT_EQUAL_UINT(1 * blocksize, pool.freeMemory());
@@ -73,14 +74,13 @@ void freePartial() {
   int5 = reinterpret_cast<int*>(pool.malloc());
   TEST_ASSERT_NOT_NULL(int5);
   pool.print();
-  (void) int5;
 
   TEST_ASSERT_EQUAL_UINT(1 * blocksize, pool.freeMemory());
 }
 
 void freeEmpty() {
   const size_t nrBlocks = 4;
-  const size_t blocksize = sizeof(int););
+  const size_t blocksize = sizeof(int);
   MemoryPool::Fixed<nrBlocks, blocksize> pool;
 
   int* int1 = reinterpret_cast<int*>(pool.malloc());
