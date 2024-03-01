@@ -30,12 +30,13 @@ class Fixed {
     std::size_t currentIndex = 0;
     std::size_t nextIndex = currentIndex + adjustedBlocksize;
     for (std::size_t i = 0; i < nrBlocks; ++i) {
-      std::cout << "preparing b: " << reinterpret_cast<void*>(&b[currentIndex]) << std::endl;
+      std::cout << "set " << reinterpret_cast<void*>(&b[currentIndex]) << " to ";
+      std::cout << reinterpret_cast<void*>(&b[nextIndex]) << std::endl;
       reinterpret_cast<unsigned char**>(b)[currentIndex] = &b[nextIndex];
-      std::cout << "updated : " << reinterpret_cast<void*>(&b[nextIndex]) << std::endl;
       currentIndex = nextIndex;
       nextIndex += adjustedBlocksize;
     }
+    std::cout << "set " << reinterpret_cast<void*>(&b[currentIndex]) << " to 0" << std::endl;
     reinterpret_cast<unsigned char**>(b)[currentIndex] = nullptr;
   }
 
