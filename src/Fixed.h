@@ -29,7 +29,7 @@ class Fixed {
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
     std::size_t currentIndex = 0;
     std::size_t nextIndex = currentIndex + adjustedBlocksize;
-    for (std::size_t i = 0; i < nrBlocks; ++i) {
+    for (std::size_t i = 0; i < nrBlocks - 1; ++i) {
       std::cout << "set " << reinterpret_cast<void*>(&b[currentIndex]) << " to ";
       std::cout << reinterpret_cast<void*>(&b[nextIndex]) << std::endl;
       reinterpret_cast<unsigned char**>(b)[currentIndex] = &b[nextIndex];
