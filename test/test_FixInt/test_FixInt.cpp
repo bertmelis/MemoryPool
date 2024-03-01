@@ -70,7 +70,7 @@ void freePartial() {
   pool.free(int4);
   pool.print();
   TEST_ASSERT_EQUAL_UINT(2 * blocksize, pool.freeMemory());
-  int* int5 = reinterpret_cast<int*>(pool.malloc(blocksize));
+  int5 = reinterpret_cast<int*>(pool.malloc());
   TEST_ASSERT_NOT_NULL(int5);
   pool.print();
   (void) int5;
