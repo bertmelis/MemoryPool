@@ -27,17 +27,13 @@ class Fixed {
     unsigned char* b = _head;
     std::cout << "head: " << reinterpret_cast<void*>(_head) << std::endl;
     std::size_t adjustedBlocksize = sizeof(sizeof(unsigned char*)) > sizeof(blocksize) ? sizeof(sizeof(unsigned char*)) : sizeof(blocksize);
-    std::size_t currentIndex = 0;
-    std::size_t nextIndex = currentIndex + adjustedBlocksize;
     for (std::size_t i = 0; i < nrBlocks - 1; ++i) {
-      std::cout << "set " << reinterpret_cast<void*>(&b[currentIndex]) << " to ";
-      std::cout << reinterpret_cast<void*>(&b[nextIndex]) << std::endl;
-      reinterpret_cast<unsigned char**>(b)[currentIndex] = &b[nextIndex];
-      currentIndex = nextIndex;
-      nextIndex += adjustedBlocksize;
+      *reinterpret_cast<unsigned char**>(b) = b + adjustedBlocksize;
+      std::cout << "set " << reinterpret_cast<void*>(b) << " to " << reinterpret_cast<void*>(b + adjustedBlocksize) << std::endl;
+      b += adjustedBlocksize;
     }
-    std::cout << "set " << reinterpret_cast<void*>(&b[currentIndex]) << " to 0" << std::endl;
-    reinterpret_cast<unsigned char**>(b)[currentIndex] = nullptr;
+    std::cout << "set " << reinterpret_cast<void*>(b) << " to 0" << std::endl;
+    *reinterpret_cast<unsigned char**>(b) = nullptr;
   }
 
   // no copy nor move
@@ -84,7 +80,6 @@ class Fixed {
 
     for (std::size_t i = 0; i < nrBlocks; ++i) {
       std::cout << "|" << i + 1 << ": " << reinterpret_cast<void*>(currentBlock) << std::endl;
-      std::cout << "|   free" << std::endl;
       std::cout << "|   next: " << reinterpret_cast<void*>(*reinterpret_cast<unsigned char**>(currentBlock)) << std::endl;
       currentBlock += adjustedBlocksize;
     }
