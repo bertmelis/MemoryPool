@@ -1,5 +1,7 @@
 # Memory Pool
 
+EARLY VERSION. USE AT OWN RISK.
+
 ### Description
 
 This is a simple memory pool that doesn't solve the fragmentation problem but contains it. Inside the pool you will still suffer memory fragmentation. The upside is that you're not restricted on memory size. As long as it fits in the pool, you can request any size!
