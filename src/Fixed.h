@@ -21,7 +21,7 @@ namespace MemoryPool {
 template <std::size_t nrBlocks, std::size_t blocksize>
 class Fixed {
  public:
-  Fixed()  // bcppcheck-suppress uninitMemberVar
+  Fixed()  // cppcheck-suppress uninitMemberVar
   : _buffer{0}
   , _head(_buffer) {
     unsigned char* b = _head;
